@@ -47,8 +47,8 @@ module TermGenerator = struct
   let set_document tg doc =
     stub_TermGenerator_set_document tg doc
 
-  let index_text tg txt num prefix =
-    stub_TermGenerator_index_text tg txt num prefix
+  let index_text tg ?(wdf_inc = 1) ?(prefix = "") txt =
+    stub_TermGenerator_index_text tg txt wdf_inc prefix
 
   let increase_termpos tg =
     stub_TermGenerator_increase_termpos tg

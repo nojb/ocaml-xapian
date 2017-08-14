@@ -1,6 +1,7 @@
 #include <caml/mlvalues.h>
 #include <caml/memory.h>
 #include <caml/custom.h>
+#include <caml/fail.h>
 #include <string>
 #include <xapian.h>
 
@@ -62,7 +63,11 @@ CAMLprim value caml_xapian_TermGenerator_set_stemmer(value ml_tg, value ml_stem)
   Stem stem = Xapian_val(Stem, ml_stem);
   TermGenerator tg = Xapian_val(TermGenerator, ml_tg);
 
-  tg.set_stemmer(stem);
+  try {
+    tg.set_stemmer(stem);
+  } catch (const Error& err) {
+    caml_failwith(err.get_msg().c_str());
+  }
 
   CAMLreturn(Val_unit);
 }
@@ -85,7 +90,11 @@ CAMLprim value caml_xapian_TermGenerator_set_document(value ml_tg, value ml_doc)
   TermGenerator tg = Xapian_val(TermGenerator, ml_tg);
   Document doc = Xapian_val(Document, ml_doc);
 
-  tg.set_document(doc);
+  try {
+    tg.set_document(doc);
+  } catch (const Error& err) {
+    caml_failwith(err.get_msg().c_str());
+  }
 
   CAMLreturn(Val_unit);
 }
@@ -95,7 +104,12 @@ CAMLprim value caml_xapian_TermGenerator_index_text(value ml_tg, value text, val
   CAMLparam4(ml_tg, text, num, prefix);
 
   TermGenerator tg = Xapian_val(TermGenerator, ml_tg);
-  tg.index_text(String_val(text), Int_val(num), String_val(prefix));
+
+  try {
+    tg.index_text(String_val(text), Int_val(num), String_val(prefix));
+  } catch (const Error& err) {
+    caml_failwith(err.get_msg().c_str());
+  }
 
   CAMLreturn(Val_unit);
 }
@@ -105,7 +119,12 @@ CAMLprim value caml_xapian_TermGenerator_increase_termpos(value ml_tg)
   CAMLparam1(ml_tg);
 
   TermGenerator tg = Xapian_val(TermGenerator, ml_tg);
-  tg.increase_termpos();
+
+  try {
+    tg.increase_termpos();
+  } catch (const Error& err) {
+    caml_failwith(err.get_msg().c_str());
+  }
 
   CAMLreturn(Val_unit);
 }
@@ -115,7 +134,12 @@ CAMLprim value caml_xapian_Document_set_data(value ml_doc, value data)
   CAMLparam2(ml_doc, data);
 
   Document doc = Xapian_val(Document, ml_doc);
-  doc.set_data(String_val(data));
+
+  try {
+    doc.set_data(String_val(data));
+  } catch (const Error& err) {
+    caml_failwith(err.get_msg().c_str());
+  }
 
   CAMLreturn(Val_unit);
 }
@@ -125,7 +149,12 @@ CAMLprim value caml_xapian_Document_add_boolean_term(value ml_doc, value ml_term
   CAMLparam2(ml_doc, ml_term);
 
   Document doc = Xapian_val(Document, ml_doc);
-  doc.add_boolean_term(String_val(ml_term));
+
+  try {
+    doc.add_boolean_term(String_val(ml_term));
+  } catch (const Error& err) {
+    caml_failwith(err.get_msg().c_str());
+  }
 
   CAMLreturn(Val_unit);
 }
@@ -137,7 +166,11 @@ CAMLprim value caml_xapian_WritableDatabase_replace_document(value ml_db, value 
   WritableDatabase db = Xapian_val(WritableDatabase, ml_db);
   Document doc = Xapian_val(Document, ml_doc);
 
-  db.replace_document(String_val(ml_term), doc);
+  try {
+    db.replace_document(String_val(ml_term), doc);
+  } catch (const Error& err) {
+    caml_failwith(err.get_msg().c_str());
+  }
 
   CAMLreturn(Val_unit);
 }

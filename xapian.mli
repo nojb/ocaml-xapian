@@ -23,7 +23,7 @@ module TermGenerator : sig
 
   val set_document: t -> Document.t -> unit
 
-  val index_text: t -> string -> int -> string -> unit
+  val index_text: t -> ?wdf_inc:int -> ?prefix:string -> string -> unit
 
   val increase_termpos: t -> unit
 end
