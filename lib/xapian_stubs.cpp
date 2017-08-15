@@ -11,27 +11,41 @@
 extern "C" {
 #endif
 
-static struct custom_operations xapian_custom_ops = {
-  .identifier = (char *)"xapian handling",
-  .finalize = custom_finalize_default,
-  .compare = custom_compare_default,
-  .hash = custom_hash_default,
-  .serialize = custom_serialize_default,
-  .deserialize = custom_deserialize_default
-};
+#define XAPIAN_TYPE(name) \
+static void xapian_ ## name ## _finalize(value v) \
+{ \
+ delete *reinterpret_cast<name **>(Data_custom_val(v)); \
+} \
+\
+static struct custom_operations xapian_ ## name ## _custom_ops = { \
+  .identifier = (char *)"xapian."#name, \
+  .finalize = &xapian_ ## name ## _finalize, \
+  .compare = custom_compare_default, \
+  .hash = custom_hash_default, \
+  .serialize = custom_serialize_default, \
+  .deserialize = custom_deserialize_default \
+}
+
+#define Xapian_alloc(res, name, ...) \
+  res = caml_alloc_custom(&xapian_ ## name ## _custom_ops, sizeof(name *), 0, 1); \
+  *(name **)Data_custom_val(res) = new name(__VA_ARGS__)
+
+#define Xapian_val(name,v) (**reinterpret_cast<name **>(Data_custom_val(v)))
 
 using namespace std;
 using namespace Xapian;
 
-#define Xapian_val(ty,v) (*reinterpret_cast<ty *>(Data_custom_val(v)))
+XAPIAN_TYPE(WritableDatabase);
+XAPIAN_TYPE(TermGenerator);
+XAPIAN_TYPE(Stem);
+XAPIAN_TYPE(Document);
 
 CAMLprim value caml_xapian_WritableDatabase(value path)
 {
   CAMLparam1(path);
   CAMLlocal1(res);
 
-  res = caml_alloc_custom(&xapian_custom_ops, sizeof(WritableDatabase), 0, 1);
-  new (Data_custom_val(res)) WritableDatabase(String_val(path));
+  Xapian_alloc(res, WritableDatabase, String_val(path));
 
   CAMLreturn(res);
 }
@@ -41,8 +55,7 @@ CAMLprim value caml_xapian_TermGenerator(value unit)
   CAMLparam0();
   CAMLlocal1(res);
 
-  res = caml_alloc_custom(&xapian_custom_ops, sizeof(TermGenerator), 0, 1);
-  new (Data_custom_val(res)) TermGenerator();
+  Xapian_alloc(res, TermGenerator);
 
   CAMLreturn(res);
 }
@@ -52,8 +65,7 @@ CAMLprim value caml_xapian_Stem(value str)
   CAMLparam1(str);
   CAMLlocal1(res);
 
-  res = caml_alloc_custom(&xapian_custom_ops, sizeof(Stem), 0, 1);
-  new (Data_custom_val(res)) Stem(String_val(str));
+  Xapian_alloc(res, Stem, String_val(str));
 
   CAMLreturn(res);
 }
@@ -79,8 +91,7 @@ CAMLprim value caml_xapian_Document(value unit)
   CAMLparam0();
   CAMLlocal1(res);
 
-  res = caml_alloc_custom(&xapian_custom_ops, sizeof(Document), 0, 1);
-  new (Data_custom_val(res)) Document();
+  Xapian_alloc(res, Document);
 
   CAMLreturn(res);
 }
