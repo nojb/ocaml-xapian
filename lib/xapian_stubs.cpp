@@ -2,8 +2,10 @@
 #include <caml/memory.h>
 #include <caml/custom.h>
 #include <caml/fail.h>
-#include <string>
+
 #include <xapian.h>
+
+#include <string>
 
 #ifdef __cplusplus
 extern "C" {

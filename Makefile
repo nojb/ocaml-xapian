@@ -18,4 +18,4 @@ reinstall: uninstall install
 doc:
 	jbuilder build @doc
 
-.PHONY: all clean doc install uninstall
+.PHONY: all clean doc install uninstall examples
