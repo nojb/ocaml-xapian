@@ -1,3 +1,5 @@
+val version_string: string
+
 module Stem : sig
   type t
 

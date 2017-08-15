@@ -3,6 +3,7 @@ type termGenerator
 type stem
 type document
 
+external stub_version_string: unit -> string = "caml_xapian_version_string"
 external stub_WritableDatabase: string -> writableDatabase = "caml_xapian_WritableDatabase"
 external stub_TermGenerator: unit -> termGenerator = "caml_xapian_TermGenerator"
 external stub_Stem: string -> stem = "caml_xapian_Stem"
@@ -14,6 +15,9 @@ external stub_TermGenerator_increase_termpos: termGenerator -> unit = "caml_xapi
 external stub_Document_set_data: document -> string -> unit = "caml_xapian_Document_set_data"
 external stub_Document_add_boolean_term: document -> string -> unit = "caml_xapian_Document_add_boolean_term"
 external stub_WritableDatabase_replace_document: writableDatabase -> string -> document -> unit = "caml_xapian_WritableDatabase_replace_document"
+
+let version_string =
+  stub_version_string ()
 
 module Stem = struct
   type t = stem

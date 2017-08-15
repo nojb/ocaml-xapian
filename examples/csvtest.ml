@@ -1,6 +1,9 @@
 open Xapian
 
 let () =
+  Printexc.record_backtrace true
+
+let main () =
   let ic = open_in Sys.argv.(1) in
   let csv_ic = Csv.of_channel ic in
   let db = WritableDatabase.create "db" in
@@ -25,3 +28,11 @@ let () =
     WritableDatabase.replace_document db idterm doc;
   in
   Csv.iter ~f csv_ic
+
+let () =
+  Printf.printf "Xapian version: %s\n" version_string;
+  try
+    main ()
+  with e ->
+    Printf.eprintf "** Fatal error: %s\n%!" (Printexc.to_string e);
+    Printexc.print_backtrace stderr

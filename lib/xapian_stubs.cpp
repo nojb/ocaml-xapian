@@ -2,6 +2,7 @@
 #include <caml/memory.h>
 #include <caml/custom.h>
 #include <caml/fail.h>
+#include <caml/alloc.h>
 
 #include <xapian.h>
 
@@ -39,6 +40,16 @@ XAPIAN_TYPE(WritableDatabase);
 XAPIAN_TYPE(TermGenerator);
 XAPIAN_TYPE(Stem);
 XAPIAN_TYPE(Document);
+
+CAMLprim value caml_xapian_version_string(value unit)
+{
+  CAMLparam0();
+  CAMLlocal1(s);
+
+  s = caml_copy_string(version_string());
+
+  CAMLreturn(s);
+}
 
 CAMLprim value caml_xapian_WritableDatabase(value path)
 {
