@@ -1,2 +1,2 @@
-*.cm*
-*.o
+_build
+.merlin

@@ -1,0 +1,17 @@
+lib: [
+  "_build/install/default/lib/xapian/META" {"META"}
+  "_build/install/default/lib/xapian/opam" {"opam"}
+  "_build/install/default/lib/xapian/xapian.cmi"
+  "_build/install/default/lib/xapian/xapian.cmx"
+  "_build/install/default/lib/xapian/xapian.cmt"
+  "_build/install/default/lib/xapian/xapian.cmti"
+  "_build/install/default/lib/xapian/xapian.mli"
+  "_build/install/default/lib/xapian/xapian.cma"
+  "_build/install/default/lib/xapian/libxapian_stubs.a"
+  "_build/install/default/lib/xapian/xapian.cmxa"
+  "_build/install/default/lib/xapian/xapian.a"
+  "_build/install/default/lib/xapian/xapian.cmxs"
+]
+stublibs: [
+  "_build/install/default/lib/stublibs/dllxapian_stubs.so"
+]

@@ -1,0 +1,6 @@
+(jbuild_version 1)
+
+(executable
+ ((name csvtest)
+  (libraries (xapian csv))
+  (flags (-cclib -lstdc++))))

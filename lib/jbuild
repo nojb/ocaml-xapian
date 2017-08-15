@@ -1,0 +1,14 @@
+(jbuild_version 1)
+
+(library
+ ((name xapian)
+  (public_name xapian)
+  (cxx_names (xapian_stubs))
+  (cxx_flags (:include cxx_flags.sexp))
+  (c_library_flags (:include c_library_flags.sexp))))
+
+(rule
+ ((targets (cxx_flags.sexp
+            c_library_flags.sexp))
+  (deps    (config/discover.exe))
+  (action  (run ${<} -ocamlc ${OCAMLC}))))

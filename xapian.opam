@@ -1,0 +1,18 @@
+opam-version: "1.2"
+name: "xapian"
+version: "0.0.1"
+maintainer: "Nicolas Ojeda Bar <n.oje.bar@gmail.com>"
+authors: "Nicolas Ojeda Bar <n.oje.bar@gmail.com>"
+homepage: "https://github.com/nojb/ocaml-xapian"
+bug-reports: "https://github.com/nojb/ocaml-xapian/issues"
+license: "MIT"
+dev-repo: "https://github.com/nojb/ocaml-xapian"
+build: [
+  ["./configure" "--prefix=%{prefix}%"]
+  [make]
+]
+install: [make "install"]
+remove: ["ocamlfind" "remove" "xapian"]
+depends: [
+  "ocamlfind" {build}
+]

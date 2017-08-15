@@ -1,21 +1,7 @@
-let read_csv path =
-  let ic = open_in_bin path in
-  let titles = String.split_on_char ',' (input_line ic) in
-  let rec loop lines =
-    match input_line ic with
-    | exception End_of_file ->
-        close_in ic;
-        List.rev lines
-    | line ->
-        let fields = String.split_on_char ',' line in
-        if List.length fields = List.length titles then begin
-          loop (List.combine titles fields :: lines)
-        end else
-          loop lines
-  in
-  loop []
-
 open Xapian
+
+let read_csv _ =
+  assert false
 
 let () =
   let csv = read_csv Sys.argv.(1) in
