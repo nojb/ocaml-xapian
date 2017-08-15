@@ -51,12 +51,12 @@ CAMLprim value caml_xapian_version_string(value unit)
   CAMLreturn(s);
 }
 
-CAMLprim value caml_xapian_WritableDatabase(value path)
+CAMLprim value caml_xapian_WritableDatabase(value path, value mode)
 {
   CAMLparam1(path);
   CAMLlocal1(res);
 
-  Xapian_alloc(res, WritableDatabase, String_val(path));
+  Xapian_alloc(res, WritableDatabase, String_val(path), Int_val(mode));
 
   CAMLreturn(res);
 }
@@ -205,7 +205,26 @@ CAMLprim value caml_Xapian_WritableDatabase_commit(value ml_db)
 
   WritableDatabase db = Xapian_val(WritableDatabase, ml_db);
 
-  db.commit();
+  try {
+    db.commit();
+  } catch (const Error& err) {
+    caml_failwith(err.get_msg().c_str());
+  }
+
+  CAMLreturn(Val_unit);
+}
+
+CAMLprim value caml_Xapian_WritableDatabase_delete_document(value vdb, value vid)
+{
+  CAMLparam2(vdb, vid);
+
+  WritableDatabase db = Xapian_val(WritableDatabase, vdb);
+
+  try {
+    db.delete_document(String_val(vid));
+  } catch (const Error& err) {
+    caml_failwith(err.get_msg().c_str());
+  }
 
   CAMLreturn(Val_unit);
 }

@@ -4,7 +4,6 @@ type stem
 type document
 
 external stub_version_string: unit -> string = "caml_xapian_version_string"
-external stub_WritableDatabase: string -> writableDatabase = "caml_xapian_WritableDatabase"
 external stub_TermGenerator: unit -> termGenerator = "caml_xapian_TermGenerator"
 external stub_Stem: string -> stem = "caml_xapian_Stem"
 external stub_TermGenerator_set_stemmer: termGenerator -> stem -> unit = "caml_xapian_TermGenerator_set_stemmer"
@@ -61,11 +60,21 @@ end
 module WritableDatabase = struct
   type t = writableDatabase
 
-  let create path =
-    stub_WritableDatabase path
+  type mode =
+    | DB_CREATE_OR_OPEN
+    | DB_CREATE_OR_OVERWRITE
+    | DB_CREATE
+    | DB_OPEN
+
+  external stub_WritableDatabase: string -> mode -> writableDatabase = "caml_xapian_WritableDatabase"
+
+  let create ?(mode = DB_OPEN) path =
+    stub_WritableDatabase path mode
 
   let replace_document db id doc =
     stub_WritableDatabase_replace_document db id doc
 
   external commit: t -> unit = "caml_Xapian_WritableDatabase_commit"
+
+  external delete_document: t -> string -> unit = "caml_Xapian_WritableDatabase_delete_document"
 end

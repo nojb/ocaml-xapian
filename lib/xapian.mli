@@ -33,9 +33,17 @@ end
 module WritableDatabase : sig
   type t
 
-  val create: string -> t
+  type mode =
+    | DB_CREATE_OR_OPEN
+    | DB_CREATE_OR_OVERWRITE
+    | DB_CREATE
+    | DB_OPEN
+
+  val create: ?mode:mode -> string -> t
 
   val replace_document: t -> string -> Document.t -> unit
 
   val commit: t -> unit
+
+  val delete_document: t -> string -> unit
 end
