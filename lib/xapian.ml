@@ -15,7 +15,7 @@ external stub_Document_set_data: document -> string -> unit = "caml_xapian_Docum
 external stub_Document_add_boolean_term: document -> string -> unit = "caml_xapian_Document_add_boolean_term"
 external stub_WritableDatabase_replace_document: writableDatabase -> string -> document -> unit = "caml_xapian_WritableDatabase_replace_document"
 
-let version_string =
+let version_string () =
   stub_version_string ()
 
 module Stem = struct

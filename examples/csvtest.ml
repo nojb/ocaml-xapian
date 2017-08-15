@@ -57,7 +57,7 @@ let main () =
   index Sys.argv.(1) Sys.argv.(2)
 
 let () =
-  Printf.printf "Xapian version: %s\n" version_string;
+  Printf.printf "Xapian version: %s\n" (version_string ());
   try
     main ()
   with e ->

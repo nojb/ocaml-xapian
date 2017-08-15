@@ -1,4 +1,4 @@
-val version_string: string
+val version_string: unit -> string
 
 module Stem : sig
   type t
