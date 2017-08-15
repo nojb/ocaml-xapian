@@ -10,8 +10,8 @@ let main () =
   let tg = TermGenerator.create () in
   TermGenerator.set_stemmer tg (Stem.create "en");
   let titles = Csv.next csv_ic in
-  let f row =
-    let row = List.combine titles row in
+  let f fields =
+    let row = List.combine titles fields in
     let title = List.assoc "TITLE" row in
     let description = List.assoc "DESCRIPTION" row in
     let id_number = List.assoc "id_NUMBER" row in
@@ -22,12 +22,13 @@ let main () =
     TermGenerator.index_text tg title;
     TermGenerator.increase_termpos tg;
     TermGenerator.index_text tg description;
-    Document.set_data doc "jjaja";
+    Document.set_data doc (String.concat "," fields);
     let idterm = "Q" ^ id_number in
     Document.add_boolean_term doc idterm;
     WritableDatabase.replace_document db idterm doc;
   in
-  Csv.iter ~f csv_ic
+  Csv.iter ~f csv_ic;
+  WritableDatabase.commit db
 
 let () =
   Printf.printf "Xapian version: %s\n" version_string;

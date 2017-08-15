@@ -66,4 +66,6 @@ module WritableDatabase = struct
 
   let replace_document db id doc =
     stub_WritableDatabase_replace_document db id doc
+
+  external commit: t -> unit = "caml_Xapian_WritableDatabase_commit"
 end

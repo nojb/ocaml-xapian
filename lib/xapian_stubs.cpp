@@ -199,6 +199,17 @@ CAMLprim value caml_xapian_WritableDatabase_replace_document(value ml_db, value 
   CAMLreturn(Val_unit);
 }
 
+CAMLprim value caml_Xapian_WritableDatabase_commit(value ml_db)
+{
+  CAMLparam1(ml_db);
+
+  WritableDatabase db = Xapian_val(WritableDatabase, ml_db);
+
+  db.commit();
+
+  CAMLreturn(Val_unit);
+}
+
 #ifdef __cplusplus
 }
 #endif

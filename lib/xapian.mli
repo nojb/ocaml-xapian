@@ -36,4 +36,6 @@ module WritableDatabase : sig
   val create: string -> t
 
   val replace_document: t -> string -> Document.t -> unit
+
+  val commit: t -> unit
 end
