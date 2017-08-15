@@ -10,8 +10,11 @@ let main () =
   let tg = TermGenerator.create () in
   TermGenerator.set_stemmer tg (Stem.create "en");
   let titles = Csv.next csv_ic in
-  let f fields =
-    let row = List.combine titles fields in
+  let json_of_row row =
+    Ezjsonm.(to_string ~minify:false (dict (List.map (fun (k, v) -> k, encode_string v) row)))
+  in
+  let f row =
+    let row = List.combine titles row in
     let title = List.assoc "TITLE" row in
     let description = List.assoc "DESCRIPTION" row in
     let id_number = List.assoc "id_NUMBER" row in
@@ -22,7 +25,7 @@ let main () =
     TermGenerator.index_text tg title;
     TermGenerator.increase_termpos tg;
     TermGenerator.index_text tg description;
-    Document.set_data doc (String.concat "," fields);
+    Document.set_data doc (json_of_row row);
     let idterm = "Q" ^ id_number in
     Document.add_boolean_term doc idterm;
     WritableDatabase.replace_document db idterm doc;
