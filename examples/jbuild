@@ -2,5 +2,4 @@
 
 (executable
  ((name csvtest)
-  (libraries (ezjsonm xapian csv))
-  (flags (-cclib -lstdc++))))
+  (libraries (ezjsonm xapian csv))))

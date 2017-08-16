@@ -24,7 +24,7 @@ let with_open_in path f =
 let index datapath dbpath =
   let doit ic =
     let ic = Csv.of_channel ic in
-    let db = WritableDatabase.create dbpath in
+    let db = WritableDatabase.(create ~mode:DB_OPEN dbpath) in
     let tg = TermGenerator.create () in
     TermGenerator.set_stemmer tg (Stem.create "en");
     let titles = Csv.next ic in

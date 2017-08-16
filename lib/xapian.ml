@@ -3,17 +3,22 @@ type termGenerator
 type stem
 type document
 
-external stub_version_string: unit -> string = "caml_xapian_version_string"
-external stub_TermGenerator: unit -> termGenerator = "caml_xapian_TermGenerator"
-external stub_Stem: string -> stem = "caml_xapian_Stem"
-external stub_TermGenerator_set_stemmer: termGenerator -> stem -> unit = "caml_xapian_TermGenerator_set_stemmer"
-external stub_Document: unit -> document = "caml_xapian_Document"
-external stub_TermGenerator_set_document: termGenerator -> document -> unit = "caml_xapian_TermGenerator_set_document"
-external stub_TermGenerator_index_text: termGenerator -> string -> int -> string -> unit = "caml_xapian_TermGenerator_index_text"
-external stub_TermGenerator_increase_termpos: termGenerator -> unit = "caml_xapian_TermGenerator_increase_termpos"
-external stub_Document_set_data: document -> string -> unit = "caml_xapian_Document_set_data"
-external stub_Document_add_boolean_term: document -> string -> unit = "caml_xapian_Document_add_boolean_term"
-external stub_WritableDatabase_replace_document: writableDatabase -> string -> document -> unit = "caml_xapian_WritableDatabase_replace_document"
+external stub_version_string: unit -> string = "caml_Xapian_version_string"
+external stub_TermGenerator: unit -> termGenerator = "caml_Xapian_TermGenerator"
+external stub_Stem: string -> stem = "caml_Xapian_Stem"
+external stub_TermGenerator_set_stemmer: termGenerator -> stem -> unit = "caml_Xapian_TermGenerator_set_stemmer"
+external stub_Document: unit -> document = "caml_Xapian_Document"
+external stub_TermGenerator_set_document: termGenerator -> document -> unit = "caml_Xapian_TermGenerator_set_document"
+external stub_TermGenerator_index_text: termGenerator -> string -> int -> string -> unit = "caml_Xapian_TermGenerator_index_text"
+external stub_TermGenerator_increase_termpos: termGenerator -> unit = "caml_Xapian_TermGenerator_increase_termpos"
+external stub_Document_set_data: document -> string -> unit = "caml_Xapian_Document_set_data"
+external stub_Document_add_boolean_term: document -> string -> unit = "caml_Xapian_Document_add_boolean_term"
+external stub_WritableDatabase_replace_document: writableDatabase -> string -> document -> unit = "caml_Xapian_WritableDatabase_replace_document"
+
+exception Error of string * string * string * string * string
+
+let () =
+  Callback.register_exception "Xapian.Error" (Error ("", "", "", "", ""))
 
 let version_string () =
   stub_version_string ()
@@ -66,7 +71,7 @@ module WritableDatabase = struct
     | DB_CREATE
     | DB_OPEN
 
-  external stub_WritableDatabase: string -> mode -> writableDatabase = "caml_xapian_WritableDatabase"
+  external stub_WritableDatabase: string -> mode -> writableDatabase = "caml_Xapian_WritableDatabase"
 
   let create ?(mode = DB_OPEN) path =
     stub_WritableDatabase path mode

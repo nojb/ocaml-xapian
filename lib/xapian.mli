@@ -1,3 +1,5 @@
+exception Error of string * string * string * string * string
+
 val version_string: unit -> string
 
 module Stem : sig
