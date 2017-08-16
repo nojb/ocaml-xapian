@@ -58,7 +58,7 @@ static value xapian_handle_error(const Xapian::Error& err, const char *s)
     name *tmp = NULL;                                                               \
     try {                                                                           \
       tmp = new name(__VA_ARGS__);                                                  \
-    } catch (const Error& err) {                                                    \
+    } catch (const Error &err) {                                                    \
       xapian_handle_error(err, #name ".create");                                    \
     } catch (...) {                                                                 \
       printf("Hola\n");                                                             \
@@ -87,7 +87,7 @@ CAMLprim value caml_Xapian_version_string(value unit)
 
 CAMLprim value caml_Xapian_WritableDatabase(value path, value mode)
 {
-  CAMLparam1(path);
+  CAMLparam2(path, mode);
   CAMLlocal1(res);
 
   Xapian_alloc(res, WritableDatabase, String_val(path), Int_val(mode));
@@ -124,7 +124,7 @@ CAMLprim value caml_Xapian_TermGenerator_set_stemmer(value ml_tg, value ml_stem)
 
   try {
     tg->set_stemmer(*stem);
-  } catch (const Error& err) {
+  } catch (const Error &err) {
     xapian_handle_error(err, "TermGenerator.set_stemmer");
   }
 
@@ -150,7 +150,7 @@ CAMLprim value caml_Xapian_TermGenerator_set_document(value ml_tg, value ml_doc)
 
   try {
     tg->set_document(*doc);
-  } catch (const Error& err) {
+  } catch (const Error &err) {
     xapian_handle_error(err, "TermGenerator.set_document");
   }
 
@@ -165,7 +165,7 @@ CAMLprim value caml_Xapian_TermGenerator_index_text(value ml_tg, value text, val
 
   try {
     tg->index_text(String_val(text), Int_val(num), String_val(prefix));
-  } catch (const Error& err) {
+  } catch (const Error &err) {
     xapian_handle_error(err, "TermGenerator.index_text");
   }
 
@@ -180,7 +180,7 @@ CAMLprim value caml_Xapian_TermGenerator_increase_termpos(value ml_tg)
 
   try {
     tg->increase_termpos();
-  } catch (const Error& err) {
+  } catch (const Error &err) {
     xapian_handle_error(err, "TermGenerator.increase_termpos");
   }
 
@@ -195,7 +195,7 @@ CAMLprim value caml_Xapian_Document_set_data(value ml_doc, value data)
 
   try {
     doc->set_data(String_val(data));
-  } catch (const Error& err) {
+  } catch (const Error &err) {
     xapian_handle_error(err, "Document.set_data");
   }
 
@@ -210,7 +210,7 @@ CAMLprim value caml_Xapian_Document_add_boolean_term(value ml_doc, value ml_term
 
   try {
     doc->add_boolean_term(String_val(ml_term));
-  } catch (const Error& err) {
+  } catch (const Error &err) {
     xapian_handle_error(err, "Document.add_boolean_term");
   }
 
@@ -226,7 +226,7 @@ CAMLprim value caml_Xapian_WritableDatabase_replace_document(value ml_db, value 
 
   try {
     db->replace_document(String_val(ml_term), *doc);
-  } catch (const Error& err) {
+  } catch (const Error &err) {
     xapian_handle_error(err, "WritableDatabase.replace_document");
   }
 
@@ -256,7 +256,7 @@ CAMLprim value caml_Xapian_WritableDatabase_delete_document(value vdb, value vid
 
   try {
     db->delete_document(String_val(vid));
-  } catch (const Error& err) {
+  } catch (const Error &err) {
     xapian_handle_error(err, "WritableDatabase.delete_document");
   }
 
